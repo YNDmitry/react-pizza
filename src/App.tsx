@@ -20,33 +20,45 @@ function Header() {
 }
 
 function Menu() {
+	const pizzas = pizzaData
+	const numPizzas = pizzas.length
+
 	return (
 		<div className='menu'>
 			<h2>Our menu</h2>
-			<p>Hehe</p>
-			<div className='pizzas'>
-				{pizzaData.map((el, idx) => (
-					<Pizza
-						photoName={'/' + el.photoName}
-						name={el.name}
-						ingredients={el.ingredients}
-						price={el.price}
-						key={idx}
-					/>
-				))}
-			</div>
+			{numPizzas > 0 ? (
+				<>
+					<p>Hehe {numPizzas} PIZZZZZZAS</p>
+					<ul className='pizzas'>
+						{pizzas.map((el, idx) => (
+							<Pizza
+								photoName={el.photoName}
+								name={el.name}
+								ingredients={el.ingredients}
+								price={el.price}
+								soldOut={el.soldOut}
+								key={idx}
+							/>
+						))}
+					</ul>
+				</>
+			) : (
+				<p>We are still working on the menu</p>
+			)}
 		</div>
 	)
 }
 
-function Pizza(props) {
+function Pizza({ photoName, name, ingredients, price, soldOut }) {
 	return (
-		<div className='pizza'>
-			<img src={props.photoName} alt={props?.name} />
-			<h3>{props?.name}</h3>
-			<p>{props?.ingredients}</p>
-			<span>Price: {props?.price}</span>
-		</div>
+		<li className={`pizza ${soldOut && 'sold-out'}`}>
+			<img src={'/' + photoName} alt={name} />
+			<div className='pizza_info'>
+				<h3>{name}</h3>
+				<p>{ingredients}</p>
+				<span>{soldOut ? 'SOLD OUT' : `Price: ${price}`}</span>
+			</div>
+		</li>
 	)
 }
 
@@ -55,16 +67,24 @@ function Footer() {
 	const openHour = 12
 	const closeHour = 22
 	const [message, setMessage] = useState('')
+	const isOpen = hour >= openHour && hour <= closeHour
 
 	useEffect(() => {
-		if (hour >= openHour && hour <= closeHour) {
+		if (isOpen) {
 			setMessage("We're currently open")
 		} else {
 			setMessage("Sorry, we're close")
 		}
 	}, [])
 
-	return <footer className='footer'>{message}</footer>
+	return (
+		<footer className='footer'>
+			<div className='order'>
+				{!isOpen ? message : `We're working from ${openHour}:00 to ${closeHour}`}
+				{isOpen && <button className='btn'>Order now</button>}
+			</div>
+		</footer>
+	)
 }
 
 export default App

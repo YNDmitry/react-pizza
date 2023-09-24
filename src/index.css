@@ -109,19 +109,23 @@ body {
 	display: flex;
 	flex-direction: column;
 	gap: 3.2rem;
+	position: relative;
+}
+
+.pizza_info {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 20px 10px;
+	background: #ffffff65;
+	backdrop-filter: blur(15px);
 }
 
 .pizza img {
 	width: 100%;
 	aspect-ratio: 1;
 	align-self: start;
-}
-
-.pizza div {
-	display: flex;
-	flex-direction: column;
-	gap: 0.8rem;
-	padding: 0.4rem 0;
 }
 
 .pizza h3 {
